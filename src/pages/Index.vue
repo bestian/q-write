@@ -1,7 +1,7 @@
 <template>
   <q-page>
     <div class="block" v-for="(item, idx) in items" :key = "idx" :style = "{top: item.y + 'px'}">
-        <span>{{ item.w }}{{item.y}}</span>
+        <span>{{ item.w }}</span>
     </div>
     <q-input filled bottom-slots :autofocus="true" name="" v-model="hit" label="打字射擊" @keydown.enter = "fire(hit)"/>
     <q-btn @click = "fire(hit)">射擊！</q-btn>
