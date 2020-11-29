@@ -1,0 +1,66 @@
+<template>
+  <q-page>
+    <div class="block" v-for="(item, idx) in items" :key = "idx" :style = "{top: item.y + 'px'}">
+        <span>{{ item.w }}{{item.y}}</span>
+    </div>
+    <q-input filled bottom-slots :autofocus="true" name="" v-model="hit" label="打字射擊" @keydown.enter = "fire(hit)"/>
+    <q-btn @click = "fire(hit)">射擊！</q-btn>
+    <div class="score">目前 {{ score }} 分</div>
+  </q-page>
+</template>
+
+<script>
+export default {
+  name: 'PageIndex',
+  data () {
+    return {
+      items: [],
+      words: ['大', '中', '小', '天', '早', '心'],
+      t: 0,
+      score: 0
+    }
+  },
+  methods: {
+    fire (hit) {
+      this.score += this.items.filter((o) => { return o.w === hit }).length
+      this.items = this.items.filter((o) => { return o.w !== hit })
+      this.hit = ''
+      this.$forceUpdate()
+    },
+    addItem () {
+      const w = this.words[Math.floor(Math.random() * this.words.length)]
+      console.log(w)
+      this.items.push({ w: w, y: 0, hide: false })
+    },
+    go () {
+      this.t++
+      if (this.t % 100 === 0) {
+        this.addItem()
+      }
+      this.items = this.items.map((o) => {
+        o.y++
+        return o
+      }).filter((o) => { return o.y < 400 })
+      this.$forceUpdate()
+    }
+  },
+  mounted () {
+    this.addItem()
+    setInterval(this.go, 50)
+  }
+}
+</script>
+
+<style type="text/css" scoped="">
+  .block {
+    position: absolute;
+    left: 40vw;
+    font-size: 36px;
+    border: 3px ridge black;
+  }
+  .score {
+    background-color: #9f9;
+    padding: 1em 1em;
+    width: 200px;
+  }
+</style>
