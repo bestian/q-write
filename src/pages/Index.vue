@@ -57,6 +57,9 @@ export default {
     left: 40vw;
     font-size: 36px;
     border: 3px ridge black;
+    width: 54px;
+    height: 54px;
+    text-align: center;
   }
   .score {
     background-color: #9f9;
