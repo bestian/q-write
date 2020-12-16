@@ -6,6 +6,7 @@
     <q-input filled bottom-slots :autofocus="true" name="" v-model="hit" label="打字射擊" @keydown.enter = "fire(hit)"/>
     <q-btn @click = "fire(hit)">射擊！</q-btn>
     <div class="score">目前 {{ score }} 分</div>
+    <div class="score">目前 {{ hearts }} 心</div>
   </q-page>
 </template>
 
@@ -15,12 +16,19 @@ export default {
   data () {
     return {
       items: [],
-      words: ['大', '中', '小', '天', '早', '心'],
+      words: ['大', '中', '小', '天', '早', '心', '太'],
       t: 0,
-      score: 0
+      score: 0,
+      hearts: 5
     }
   },
   methods: {
+    die () {
+      console.log('die')
+      this.score = 0
+      this.hearts = 5
+      this.items = []
+    },
     fire (hit) {
       this.score += this.items.filter((o) => { return o.w === hit }).length
       this.items = this.items.filter((o) => { return o.w !== hit })
@@ -39,8 +47,14 @@ export default {
       }
       this.items = this.items.map((o) => {
         o.y++
+        if (o.y === 400) {
+          this.hearts--
+        }
         return o
       }).filter((o) => { return o.y < 400 })
+      if (this.hearts === 0) {
+        this.die()
+      }
       this.$forceUpdate()
     }
   },
